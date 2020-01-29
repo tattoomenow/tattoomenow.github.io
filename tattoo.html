@@ -66,7 +66,7 @@ p {
 		<script src="js/Three.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/OBJLoader.js"></script>
-		<script src="js/THREE.DecalGeometry.js"></script>
+		<script src="../src/THREE.DecalGeometry.js"></script>
 		<script src="js/dat.gui.min.js"></script>
 		
 		<div id="container"></div>
@@ -103,11 +103,12 @@ var intersection = {
 var controls, renderHelpers = false;
 var mouseVector = new THREE.Vector3();
 var mouse = new THREE.Vector2();
+designs = ['assets/splatter.png','assets/tigerLeft1.png','assets/YingYang1.png','assets/CelticKnotGreen1.png'];
 
 var decalMaterial = new THREE.MeshPhongMaterial( { 
 	specular: 0xffffff,
 	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( 'assets/splatter.png' ), 
+	map: THREE.ImageUtils.loadTexture( designs[0] ), 
 	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
 	normalScale: new THREE.Vector2( .15, .15 ),
 	transparent: true, 
