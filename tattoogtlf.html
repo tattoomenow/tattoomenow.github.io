@@ -53,11 +53,31 @@ p {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-.button:hover {
+.button:hover {<h1 class="glow">Change Tattoo</h1>
+  <img src="assets/rarrow2.png" onclick="prevTattoo()"></img>
+		<img src="assets/garrow2.png" onclick="nextTattoo()" ></img><br>
   background: #ddd;
 }
 #fileElem {
   display: none;
+}
+.glow {
+  font-size: 13px;
+  color: #000;
+  text-align: left;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 4px #fda, 0 0 6px #fda, 0 0 8px #fda, 0 0 10px #dfa, 0 0 12px #dfa, 0 0 15px #efb, 0 0 16px #ffc;
+  }
+  
+  to {
+    text-shadow: 0 0 5px #ffc, 0 0 7px #ffb, 0 0 9px #ffa, 0 0 11px #efa, 0 0 13px #dfa, 0 0 15px #cfa, 0 0 17px #bfa;
+  }
 }
 		</style>
 		
@@ -69,15 +89,22 @@ p {
 		<script src="js/THREE.DecalGeometry.js"></script>
 		<script src="js/dat.gui.min.js"></script>
 		<script src="js/KeyboardState.js"></script>
+		<script type="text/javascript" src="js/keyboardTattoo.js"></script>
 		
 		<div id="container"></div>
 		<div class="intro" >
 			<p><b>Tattoo visualiser</b> | Click or tap and drag to rotate, mouse wheel or pinch to zoom, click or tap to place the Tattoo.</p><br>
 		<div id="drop-area">
   <form class="my-form">
-    <p>Upload a new tattoo:</p>
+   <!-- <p>Upload a new tattoo:</p>
     <input type="file" id="fileElem" onchange="addTattoo(this.files[0])">
-    <label class="button" for="fileElem">Select a tattoo</label>
+    <label class="button" for="fileElem">Select a tattoo</label> -->
+    <h1 class="glow">Change Tattoo</h1>
+  <img src="assets/rarrow2.png" onclick="prevTattoo()"></img>
+		<img src="assets/garrow2.png" onclick="nextTattoo()" ></img><br>
+		<h1 class="glow">Change Skin Colour</h1>
+  <img src="assets/rarrow2.png" onclick="prevSkin()"></img>
+		<img src="assets/garrow2.png" onclick="nextSkin()" ></img><br>
   </form>
 
 </div>
@@ -106,13 +133,17 @@ var controls, renderHelpers = false;
 var mouseVector = new THREE.Vector3();
 var mouse = new THREE.Vector2();
 var addFile = 0;
+var skinType = 0;
 var designs = ['assets/1.png','assets/2.png','assets/3.png','assets/4.png','assets/5.png','assets/6.png','assets/7.png','assets/8.png','assets/9.png','assets/10.png',
-	      'assets/11.png','assets/12.png','assets/13.png','assets/14.png','assets/15.png','assets/16.png','assets/17.png','assets/18.png','assets/19.png','assets/20.png',];
+'assets/11.png','assets/12.png','assets/13.png','assets/14.png','assets/15.png','assets/16.png','assets/17.png','assets/18.png','assets/19.png','assets/20.png',
+'assets/21.png','assets/22.png','assets/23.png','assets/24.png','assets/25.png','assets/26.png','assets/27.png','assets/28.png','assets/29.png','assets/30.png',
+	      'assets/31.png','assets/32.png','assets/33.png','assets/34.png','assets/35.png','assets/36.png','assets/37.png','assets/38.png','assets/39.png','assets/40.png'];
+var skins = ['assets/Map-COL.jpg','assets/Map-COL1.jpg', 'assets/Map-COL2.jpg', 'assets/Map-COL3.jpg'];
 	      
-var loader = new THREE.TextureLoader();
+
 const boxWidth = 15;
-  const boxHeight = 15;
-  const boxDepth = 15;
+const boxHeight = 15;
+const boxDepth = 15;
  
 
 
@@ -176,49 +207,49 @@ function init() {
 	
 	scene.add( camera );
 
-	ambientLight = new THREE.AmbientLight( 0x666666666 );
+	ambientLight = new THREE.AmbientLight( 0xFFFFFFFFF );
 	scene.add( ambientLight );
 
-	pointLight = new THREE.PointLight( 0xff0000 );
-	pointLight.position.z = 10000;
-	pointLight.distance = 4000;
+	pointLight = new THREE.PointLight( 0xffffff );
+	pointLight.position.z = 50;
+	pointLight.distance = 50;
 	scene.add( pointLight );
-	pointLight = new THREE.PointLight( 0xff5555 );
-	pointLight.position.z = -3000;
-	pointLight.distance = 4000;
+	pointLight = new THREE.PointLight( 0xffEEEE );
+	pointLight.position.z = -50;
+	pointLight.distance = 50;
 	scene.add( pointLight );
 
-	pointLight2 = new THREE.PointLight( 0xff5500 );
-	pointLight2.position.z = 1000;
-	pointLight2.distance = 2000;
+	pointLight2 = new THREE.PointLight( 0xffEEEE );
+	pointLight2.position.z = 50;
+	pointLight2.distance = 50;
 	scene.add( pointLight2 );
 
-	pointLight3 = new THREE.PointLight( 0x0000ff );
-	pointLight3.position.x = -1000;
-	pointLight3.position.z = 1000;
-	pointLight3.distance = 2000;
+	pointLight3 = new THREE.PointLight( 0xddddff );
+	pointLight3.position.x = -50;
+	pointLight3.position.z = 50;
+	pointLight3.distance = 50;
 	scene.add( pointLight3 );
-	pointLight3 = new THREE.PointLight( 0x0000ff );
-	pointLight3.position.x = 1000;
-	pointLight3.position.z = 1000;
-	pointLight3.distance = 2000;
+	pointLight3 = new THREE.PointLight( 0xddddff );
+	pointLight3.position.x = 10;
+	pointLight3.position.z = 10;
+	pointLight3.distance = 20;
 	scene.add( pointLight3 );
-	pointLight3 = new THREE.PointLight( 0x0000ff );
-	pointLight3.position.y = 1000;
-	pointLight3.position.z = -1000;
-	pointLight3.distance = 2000;
+	pointLight3 = new THREE.PointLight( 0xddddff );
+	pointLight3.position.y = 50;
+	pointLight3.position.z = -50;
+	pointLight3.distance = 50;
 	scene.add( pointLight3 );
 
 	spotLight = new THREE.SpotLight( 0xaaaaaa );
-	spotLight.position.set( 100, 50, 100 );
+	spotLight.position.set( 10, 50, 10 );
 	scene.add( spotLight );
 
 	line = new THREE.Line( new THREE.Geometry( ), new THREE.LineBasicMaterial( { linewidth: 4 }) );
 	line.geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
 	line.geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
 	scene.add( line );
-	loaderB = new THREE.TextureLoader();
-	geometryB = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+	
+	
 	document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 	document.addEventListener('keydown', event => {
@@ -236,23 +267,8 @@ function init() {
 });
  
 
-var materialB = new THREE.MeshPhongMaterial( { 
-	specular: 0xffffff,
-	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
-	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
-	normalScale: new THREE.Vector2( .01, .01 ),
-	transparent: false, 
-	depthTest: true, 
-	depthWrite: false, 
-	polygonOffset: true,
-	polygonOffsetFactor: -4, 
-	wireframe: false 
-});
-	cube = new THREE.Mesh(geometryB, materialB);
-	cube.position.set(-35,0,10);
-	scene.add(cube);
 
+	newCube();
 	loadLeePerrySmith();
 
 	projector = new THREE.Projector();
@@ -299,7 +315,7 @@ var materialB = new THREE.MeshPhongMaterial( {
 
     }
     
-    function loadTattoo() {
+    /*function loadTattoo() {
 		this.className = '';
       e.preventDefault();
 
@@ -318,7 +334,7 @@ var materialB = new THREE.MeshPhongMaterial( {
       };
       reader.readAsDataURL(file);
       return false;
-	}
+	}*/
 
     function checkIntersection() {
 
@@ -389,6 +405,39 @@ function loadLeePerrySmith( callback ) {
 		geometry.tangentsNeedUpdate = true;
 
 		var material = new THREE.MeshPhongMaterial( {
+			map: THREE.ImageUtils.loadTexture( skins[0] ),
+			specularMap: THREE.ImageUtils.loadTexture( 'assets/Map-SPEC.jpg' ),
+			normalMap: THREE.ImageUtils.loadTexture( 'assets/Map-NOR.jpg' ),
+			shininess: 10
+		} );
+
+		mesh = new THREE.Mesh( geometry, material );
+		scene.add( mesh );
+		mesh.scale.set( 7, 7, 7 );
+
+		//scene.add( new THREE.FaceNormalsHelper( mesh, 1 ) );
+		//scene.add( new THREE.VertexNormalsHelper( mesh, 1 ) );
+
+    } );
+}
+   if(whichOne == 1) {
+
+	var loader = new THREE.JSONLoader();
+	
+
+    loader.load( 'assets/model2.glt', function( geometry ) {
+		//loader.load( 'assets/standard-male-figure.json', function( geometry ) {
+			
+
+    	geometry.verticesNeedUpdate = true;
+		geometry.elementsNeedUpdate = true;
+		geometry.morphTargetsNeedUpdate = true;
+		geometry.uvsNeedUpdate = true;
+		geometry.normalsNeedUpdate = true;
+		geometry.colorsNeedUpdate = true;
+		geometry.tangentsNeedUpdate = true;
+
+		var material = new THREE.MeshPhongMaterial( {
 			map: THREE.ImageUtils.loadTexture( 'assets/Map-COL.jpg' ),
 			specularMap: THREE.ImageUtils.loadTexture( 'assets/Map-SPEC.jpg' ),
 			normalMap: THREE.ImageUtils.loadTexture( 'assets/Map-NOR.jpg' ),
@@ -404,47 +453,7 @@ function loadLeePerrySmith( callback ) {
 
     } );
 }
-    if(whichOne == 1) {
-		var manager = new THREE.LoadingManager();
-				manager.onProgress = function ( item, loaded, total ) {
-
-					//console.log( item, loaded, total );
-
-				};
-
-			//	var texture = new THREE.Texture();
-			
-				var onProgress = function ( xhr ) {
-					if ( xhr.lengthComputable ) {
-						var percentComplete = xhr.loaded / xhr.total * 100;
-						//console.log( Math.round(percentComplete, 2) + '% downloaded' );
-					}
-				};
-
-				var onError = function ( xhr ) {
-				};
-    var loader = new THREE.OBJLoader(manager);
-    loader.load( 'assets/full.obj', function( geometry ) {
     
-		geometry.verticesNeedUpdate = true;
-		geometry.elementsNeedUpdate = true;
-		geometry.morphTargetsNeedUpdate = true;
-		geometry.uvsNeedUpdate = true;
-		geometry.normalsNeedUpdate = true;
-		geometry.colorsNeedUpdate = true;
-		geometry.tangentsNeedUpdate = true;			
-			var material = new THREE.MeshPhongMaterial( {
-			map: THREE.ImageUtils.loadTexture( 'assets/Map-COL.jpg' ),
-			specularMap: THREE.ImageUtils.loadTexture( 'assets/Map-SPEC.jpg' ),
-			normalMap: THREE.ImageUtils.loadTexture( 'assets/Map-NOR.jpg' ),
-			shininess: 10
-		} );
-
-		mesh = new THREE.Mesh( geometry, material );
-		scene.add( mesh );
-		mesh.scale.set( 7, 7, 7 );
-                });
-    }
 
 }
 
@@ -519,7 +528,7 @@ function removeDecals() {
 
 }
 
-function addTattoo(file) {
+/*function addTattoo(file) {
 	
 	var materialB = new THREE.MeshPhongMaterial( { 
 	specular: 0xffffff,
@@ -553,22 +562,8 @@ function addTattoo(file) {
 	polygonOffsetFactor: -4, 
 	wireframe: false 
 });
-}
-function update()
-{
-	keyboard.update();
-				
-	if ( keyboard.pressed("N") ) {
-					addFile = addFile - 1;
-					if ( addFile < 0){addFile = 20;}
-				}
+}*/
 
-					if ( keyboard.pressed("b") ) {
-					addFile = addFile + 1;	
-					if ( addFile > 20){addFile = 0;}				
-				}
-				addTattoo()
-}
 
 
 
@@ -609,7 +604,7 @@ function onWindowResize() {
 }
 
 function render() {
-	update();
+	
 	requestAnimationFrame( render );
 	
 	renderer.autoClear = false;

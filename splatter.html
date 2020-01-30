@@ -66,9 +66,8 @@ p {
 		<script src="js/Three.js"></script>
 		<script src="js/OrbitControls.js"></script>
 		<script src="js/OBJLoader.js"></script>
-		<script src="js/THREE.DecalGeometry.js"></script>
+		<script src="../src/THREE.DecalGeometry.js"></script>
 		<script src="js/dat.gui.min.js"></script>
-		<script src="js/KeyboardState.js"></script>
 		
 		<div id="container"></div>
 		<div class="intro" >
@@ -91,12 +90,11 @@ p {
 var container = document.getElementById( 'container' );
 
 var renderer, scene, helperScene, camera, fov = 45;
-var mesh, decal, cube;
+var mesh, decal;
 var projector, raycaster;
 var line;
 var spotLight, pointLight, ambientLight;
-var keyboard = new KeyboardState();
-var key;
+
 var intersection = {
 	intersects: false,
 	point: new THREE.Vector3(),
@@ -105,22 +103,11 @@ var intersection = {
 var controls, renderHelpers = false;
 var mouseVector = new THREE.Vector3();
 var mouse = new THREE.Vector2();
-var addFile = 0;
-var designs = ['assets/1.png','assets/2.png','assets/3.png','assets/4.png','assets/5.png','assets/6.png','assets/7.png','assets/8.png','assets/9.png','assets/10.png',
-	      'assets/11.png','assets/12.png','assets/13.png','assets/14.png','assets/15.png','assets/16.png','assets/17.png','assets/18.png','assets/19.png','assets/20.png',];
-	      
-var loader = new THREE.TextureLoader();
-const boxWidth = 15;
-  const boxHeight = 15;
-  const boxDepth = 15;
- 
-
-
 
 var decalMaterial = new THREE.MeshPhongMaterial( { 
 	specular: 0xffffff,
 	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
+	map: THREE.ImageUtils.loadTexture( 'assets/splatter.png' ), 
 	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
 	normalScale: new THREE.Vector2( .15, .15 ),
 	transparent: true, 
@@ -217,41 +204,6 @@ function init() {
 	line.geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
 	line.geometry.vertices.push( new THREE.Vector3( 0, 0, 0 ) );
 	scene.add( line );
-	loaderB = new THREE.TextureLoader();
-	geometryB = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
-	document.addEventListener('DOMContentLoaded', () => {
-    'use strict';
-	document.addEventListener('keydown', event => {
-		const charList = 'bn';
-        key = event.key.toLowerCase();
-
-        // we are only interested in alphanumeric keys
-        if (charList.indexOf(key) === -1) return;
-
-        console.log(key);
-
-    });
-    
-    console.log('content loaded');
-});
- 
-
-var materialB = new THREE.MeshPhongMaterial( { 
-	specular: 0xffffff,
-	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
-	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
-	normalScale: new THREE.Vector2( .01, .01 ),
-	transparent: false, 
-	depthTest: true, 
-	depthWrite: false, 
-	polygonOffset: true,
-	polygonOffsetFactor: -4, 
-	wireframe: false 
-});
-	cube = new THREE.Mesh(geometryB, materialB);
-	cube.position.set(-35,0,10);
-	scene.add(cube);
 
 	loadLeePerrySmith();
 
@@ -517,33 +469,18 @@ function removeDecals() {
 	} );
 	decals = [];
 
-}
+};
 
 function addTattoo(file) {
 	
-	var materialB = new THREE.MeshPhongMaterial( { 
-	specular: 0xffffff,
-	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
-	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
-	normalScale: new THREE.Vector2( .01, .01 ),
-	transparent: false, 
-	depthTest: true, 
-	depthWrite: false, 
-	polygonOffset: true,
-	polygonOffsetFactor: -4, 
-	wireframe: false 
-});
-	cube.material = materialB;
-	//cube.position.set(-35,0,10);
-	//scene.add(cube);
+	var addFile = 'assets/'+ file.name;
 
-
+  console.log(addFile);
 
   decalMaterial = new THREE.MeshPhongMaterial( { 
 	specular: 0xffffff,
 	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
+	map: THREE.ImageUtils.loadTexture( addFile ), 
 	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
 	normalScale: new THREE.Vector2( .15, .15 ),
 	transparent: true, 
@@ -553,25 +490,7 @@ function addTattoo(file) {
 	polygonOffsetFactor: -4, 
 	wireframe: false 
 });
-}
-function update()
-{
-	keyboard.update();
-				
-	if ( keyboard.pressed("N") ) {
-					addFile = addFile - 1;
-					if ( addFile < 0){addFile = 20;}
-				}
-
-					if ( keyboard.pressed("b") ) {
-					addFile = addFile + 1;	
-					if ( addFile > 20){addFile = 0;}				
-				}
-				addTattoo()
-}
-
-
-
+};
 
 function mergeDecals() {
 
@@ -609,7 +528,7 @@ function onWindowResize() {
 }
 
 function render() {
-	update();
+
 	requestAnimationFrame( render );
 	
 	renderer.autoClear = false;
