@@ -27,16 +27,16 @@ function prevSkin(){
 function updateCube(){
 	var materialB = new THREE.MeshPhongMaterial( {
 			map: THREE.ImageUtils.loadTexture( designs[addFile] ),
-			shininess: 10
+			shininess: 10,
+			transparent: true,
 		} );		
 	
 	cube.material = materialB ;
 	decalMaterial = new THREE.MeshPhongMaterial( { 
+	color: 0xffffff,
 	specular: 0xffffff,
 	shininess: 10,
 	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
-	normalMap: THREE.ImageUtils.loadTexture( 'assets/wrinkle-normal.jpg' ),
-	normalScale: new THREE.Vector2( .15, .15 ),
 	transparent: true, 
 	depthTest: true, 
 	depthWrite: false, 
@@ -47,6 +47,7 @@ function updateCube(){
 	
 	}
 	function updateSkin(){
+		
 	var material = new THREE.MeshPhongMaterial( {
 			map: THREE.ImageUtils.loadTexture( skins[skinType] ),
 			specularMap: THREE.ImageUtils.loadTexture( 'assets/Map-SPEC.jpg' ),
@@ -57,12 +58,22 @@ function updateCube(){
 	}
 	
 	function newCube(){
-	var materialB = new THREE.MeshPhongMaterial( {
-			map: THREE.ImageUtils.loadTexture( designs[addFile] ),
-			shininess: 10
-		} );
+	materialC = new THREE.MeshBasicMaterial( { color: 0xeeffee } );
+	var	geometryB = new THREE.BoxGeometry(14.9, 15.5, 14.9);
+	
+	cubeC = new THREE.Mesh( geometryB, materialC ); 
+	cubeC.position.set(30,20,10);
+	//cubeC.scale.set( 0.8, 0.8, 0.8 );
+		scene.add( cubeC );
 		
-var	geometryB = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+	var materialB = new THREE.MeshPhongMaterial( {
+		
+			map: THREE.ImageUtils.loadTexture( designs[addFile] ),
+			shininess: 10,
+			transparent: true
+		} );
+	
+		geometryB = new THREE.BoxGeometry(15, 15, 15);
 	
 	cube = new THREE.Mesh( geometryB, materialB );
 	cube.position.set(30,20,10);
