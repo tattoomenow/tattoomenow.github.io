@@ -118,7 +118,7 @@ p {
 var container = document.getElementById( 'container' );
 
 var renderer, scene, helperScene, camera, fov = 45;
-var mesh, decal, cube;
+var mesh, decal, cube, cubeC;
 var projector, raycaster;
 var line;
 var spotLight, pointLight, ambientLight;
@@ -130,14 +130,15 @@ var intersection = {
 	normal: new THREE.Vector3()
 };
 var controls, renderHelpers = false;
+var materialC;
 var mouseVector = new THREE.Vector3();
 var mouse = new THREE.Vector2();
 var addFile = 0;
 var skinType = 0;
-var designs = ['assets/1.png','assets/2.png','assets/3.png','assets/4.png','assets/5.png','assets/6.png','assets/7.png','assets/8.png','assets/9.png','assets/10.png',
-'assets/11.png','assets/12.png','assets/13.png','assets/14.png','assets/15.png','assets/16.png','assets/17.png','assets/18.png','assets/19.png','assets/20.png',
-'assets/21.png','assets/22.png','assets/23.png','assets/24.png','assets/25.png','assets/26.png','assets/27.png','assets/28.png','assets/29.png','assets/30.png',
-	      'assets/31.png','assets/32.png','assets/33.png','assets/34.png','assets/35.png','assets/36.png','assets/37.png','assets/38.png','assets/39.png','assets/40.png'];
+var designs = ['assets/1ss.png','assets/2ss.png','assets/3ss.png','assets/4ss.png','assets/5ss.png','assets/6ss.png','assets/7ss.png','assets/8ss.png','assets/9ss.png','assets/10ss.png',
+'assets/11ss.png','assets/12ss.png','assets/13ss.png','assets/14ss.png','assets/15ss.png','assets/16ss.png','assets/17ss.png','assets/18ss.png','assets/19ss.png','assets/20ss.png',
+'assets/21ss.png','assets/22ss.png','assets/23ss.png','assets/24ss.png','assets/25ss.png','assets/26ss.png','assets/27ss.png','assets/28ss.png','assets/29ss.png','assets/30ss.png',
+	      'assets/31ss.png','assets/32ss.png','assets/33ss.png','assets/34ss.png','assets/35ss.png','assets/36ss.png','assets/37ss.png','assets/38ss.png','assets/39ss.png','assets/40ss.png'];
 var skins = ['assets/Map-COL.jpg','assets/Map-COL1.jpg', 'assets/Map-COL2.jpg', 'assets/Map-COL3.jpg'];
 	      
 
@@ -179,7 +180,7 @@ var check = new THREE.Vector3( 1, 1, 1 );
 
 var params = {
 	projection: 'normal',
-	Scale: 20,
+	Scale: 10,
 	rotate: 0,
 	clear: function() {
 		removeDecals();
@@ -373,7 +374,7 @@ function init() {
 	var gui = new dat.GUI();
 
 	gui.add( params, 'projection', { 'From cam to mesh': 'camera', 'Normal to mesh': 'normal' } );
-	gui.add( params, 'Scale', 1, 50 );
+	gui.add( params, 'Scale', 1, 30 );
 	gui.add( params, 'rotate', 0,360 );
 	gui.add( params, 'clear' );
 	gui.open();
