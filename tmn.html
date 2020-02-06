@@ -121,7 +121,7 @@ p {
 	      scene = new THREE.Scene();
 			
 			var decalMaterial = new THREE.MeshPhongMaterial( { 
-				specular: 0xffffff,
+				specular: 0x111111,
 				shininess: 0,
 				map: textureLoader.load( designs[addFile] ), 
 				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
@@ -179,7 +179,7 @@ function prevSkin(){
 	function updateCube(){
 	var materialB = new THREE.MeshPhongMaterial( {
 			map: textureLoader.load( designs[addFile] ),
-			shininess: 10,
+			shininess: 1,
 			transparent: true,
 		} );		
 	
@@ -187,7 +187,7 @@ function prevSkin(){
 	decalMaterial = new THREE.MeshPhongMaterial( { 
 	color: 0xffffff,
 	specular: 0x111111,
-	shininess: 0,
+	shininess: 1,
 	map: textureLoader.load( designs[addFile] ), 
 	transparent: true, 
 	depthTest: true, 
@@ -202,7 +202,7 @@ function prevSkin(){
 	mesh.material = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[skinType] ),
-						shininess: 5
+						shininess: 1
 					} );
 	}
 	
@@ -288,10 +288,23 @@ function prevSkin(){
 				mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 10 ), new THREE.MeshNormalMaterial() );
 				mouseHelper.visible = false;
 				scene.add( mouseHelper );
+				r = new THREE.Vector3( 0, 0, 0 );
+				var gui = new GUI();
+
+				//gui.add( params, 'minScale', 1, 30 );
+				gui.add( params, 'Scale', 1, 30 );
+				gui.add( params, 'Rotation', 0,360 );
+				gui.add( params, 'Clear' );
+				gui.add( params, 'Choose', 0, 200 );
+				gui.add( params, 'ClearOne' );
+				gui.open();
+				
+
 
 				window.addEventListener( 'resize', onWindowResize, false );
+				controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
-				var moved = false;
+				var moved = true; //theuns
 
 				controls.addEventListener( 'change', function () {
 
@@ -374,18 +387,7 @@ function prevSkin(){
 					}
 
 				}
-				r = new THREE.Vector3( 0, 0, 0 );
-				var gui = new GUI();
-
-				//gui.add( params, 'minScale', 1, 30 );
-				gui.add( params, 'Scale', 1, 30 );
-				gui.add( params, 'Rotation', 0,360 );
-				gui.add( params, 'Clear' );
-				gui.add( params, 'Choose', 0, 200 );
-				gui.add( params, 'ClearOne' );
-				gui.open();
 				
-
 				onWindowResize();
 				animate();
 
@@ -394,7 +396,7 @@ function prevSkin(){
 	var materialC = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[0] ),
-						shininess: 5
+						shininess: 1
 					} );
 	var	geometryB = new THREE.BoxGeometry(9.9, 10.5, 9.9);
 	console.log("new cube");
@@ -406,7 +408,7 @@ function prevSkin(){
 	var materialB = new THREE.MeshPhongMaterial( {
 		
 			map: textureLoader.load( designs[addFile] ),
-			shininess: 10,
+			shininess: 1,
 			transparent: true
 		} );
 	
@@ -430,7 +432,7 @@ function prevSkin(){
 					mesh.material = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[0] ),
-						shininess: 5
+						shininess: 1
 					} );
 
 					scene.add( mesh );
@@ -443,7 +445,7 @@ function prevSkin(){
 					mesh2.material = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( 'models/gltf/LeePerrySmith/Map-COL4.jpg' ),
-						shininess: 5
+						shininess: 1
 					} );
 					
 
