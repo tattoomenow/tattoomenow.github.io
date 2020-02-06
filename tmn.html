@@ -262,6 +262,7 @@ function prevSkin(){
 				var controls = new OrbitControls( camera, renderer.domElement );
 				controls.minDistance = 50;
 				controls.maxDistance = 200;
+				controls.screenSpacePanning = true;
 
 				scene.add( new THREE.AmbientLight( 0x443333 ) );
 
