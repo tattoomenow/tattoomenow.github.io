@@ -264,14 +264,14 @@ function prevSkin(){
 				controls.maxDistance = 200;
 				controls.screenSpacePanning = true;
 
-				scene.add( new THREE.AmbientLight( 0x443333 ) );
+				scene.add( new THREE.AmbientLight( 0x888888 ) );
 
-				var light = new THREE.DirectionalLight( 0xffddcc, 1 );
-				light.position.set( 1, 0.75, 0.5 );
+				var light = new THREE.DirectionalLight( 0xbbaa55, 1 );
+				light.position.set( 1000, 750, 500 );
 				scene.add( light );
 
-				var light = new THREE.DirectionalLight( 0xccccff, 1 );
-				light.position.set( - 1, 0.75, - 0.5 );
+				var light = new THREE.DirectionalLight( 0xaaaabb, 1 );
+				light.position.set( - 1000, 750, - 500 );
 				scene.add( light );
 
 				var geometry = new THREE.BufferGeometry();
