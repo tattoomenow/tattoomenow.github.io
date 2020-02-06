@@ -3,7 +3,7 @@
 	<head>
 		<title>Tattoo Simulation</title>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-Scale=1.0, maximum-Scale=1.0">
 		<style>
 			*{ box-sizing: border-box; margin: 0; padding: 0 }
 			body {
@@ -54,8 +54,8 @@ p {
   border: 1px solid #ccc;
 }
 .button:hover {<h1 class="glow">Change Tattoo</h1>
-  <img src="assets/rarrow2.png" onclick="prevTattoo()"></img>
-		<img src="assets/garrow2.png" onclick="nextTattoo()" ></img><br>
+  <img src="assets/rarrow3.png" onclick="prevTattoo()"></img>
+		<img src="assets/garrow3.png" onclick="nextTattoo()" ></img><br>
   background: #ddd;
 }
 #fileElem {
@@ -80,17 +80,14 @@ p {
   }
 }
 		</style>
-		<script src="jsm/tattoo/three.min.js"></script>
-		<script type="text/javascript">
-			const boxWidth = 15;
-const boxHeight = 15;
-const boxDepth = 15;
-
+		<script type="text/javascript" src="jsm/tattoo/three.min.js"></script>
+		<script type="text/javascript">	
 			var renderer, scene, camera, stats;
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
 			var line;
-
+			var addFile = 41;
+			var skinType = 0;
 			var intersection = {
 				intersects: false,
 				point: new THREE.Vector3(),
@@ -98,11 +95,9 @@ const boxDepth = 15;
 			};
 			var mouse = new THREE.Vector2();
 
-			var textureLoader = new THREE.TextureLoader();
-			var decalDiffuse = textureLoader.load( '../NewVersion/textures/decal/decal-diffuse.png' );
-			var decalNormal = textureLoader.load( '../NewVersion/textures/decal/decal-normal.jpg' );
-			var addFile = 0;
-			var skinType = 0;
+			var textureLoader = new THREE.TextureLoader(); //THREE.ImageUtils.loadTexture
+			var decalDiffuse = textureLoader.load( '/textures/decal/decal-diffuse.png' );
+			var decalNormal = textureLoader.load( '/textures/decal/decal-normal.jpg' );
 			console.log(addFile);
 			
 			var mouseHelper;
@@ -111,27 +106,25 @@ const boxDepth = 15;
 			var size = new THREE.Vector3( 10, 10, 10 );
 			var r = new THREE.Vector3( 0, 0, 0 );
 			var params = {
-				minScale: 10,
-				maxScale: 20,
-				rotate: 0,
-				clear: function () {
-
-					removeDecals();
-
-				}
+				Scale: 10,
+				Rotation: 0,
+				Clear: function () {removeDecals();},
+				Choose: 0,
+				ClearOne: function () {removeDecals2();}
 			};
-			var designs = ['../NewVersion/assets/1ss.png','../NewVersion/assets/2ss.png','../NewVersion/assets/3ss.png','../NewVersion/assets/4ss.png','../NewVersion/assets/5ss.png','../NewVersion/assets/6ss.png','../NewVersion/assets/7ss.png','../NewVersion/assets/8ss.png','../NewVersion/assets/9ss.png','../NewVersion/assets/10ss.png',
-			'../NewVersion/assets/11ss.png','../NewVersion/assets/12ss.png','../NewVersion/assets/13ss.png','../NewVersion/assets/14ss.png','../NewVersion/assets/15ss.png','../NewVersion/assets/16ss.png','../NewVersion/assets/17ss.png','../NewVersion/assets/18ss.png','../NewVersion/assets/19ss.png','../NewVersion/assets/20ss.png',
-			'../NewVersion/assets/21ss.png','../NewVersion/assets/22ss.png','../NewVersion/assets/23ss.png','../NewVersion/assets/24ss.png','../NewVersion/assets/25ss.png','../NewVersion/assets/26ss.png','../NewVersion/assets/27ss.png','../NewVersion/assets/28ss.png','../NewVersion/assets/29ss.png','../NewVersion/assets/30ss.png',
-	      '../NewVersion/assets/31ss.png','../NewVersion/assets/32ss.png','../NewVersion/assets/33ss.png','../NewVersion/assets/34ss.png','../NewVersion/assets/35ss.png','../NewVersion/assets/36ss.png','../NewVersion/assets/37ss.png','../NewVersion/assets/38ss.png','../NewVersion/assets/39ss.png','../NewVersion/assets/40ss.png'];
-			var skins = ['models/gltf/LeePerrySmith/Map-COL5.jpg','models/gltf/LeePerrySmith/Map-COL6.jpg', 'models/gltf/LeePerrySmith/Map-COL7.jpg', 'models/gltf/LeePerrySmith/Map-COL8.jpg'];
+			var designs = ['/assets/1ss.png','/assets/2ss.png','/assets/3ss.png','/assets/4ss.png','/assets/5ss.png','/assets/6ss.png','/assets/7ss.png','/assets/8ss.png','/assets/9ss.png','/assets/10ss.png',
+			'/assets/11ss.png','/assets/12ss.png','/assets/13ss.png','/assets/14ss.png','/assets/15ss.png','/assets/16ss.png','/assets/17ss.png','/assets/18ss.png','/assets/19ss.png','/assets/20ss.png',
+			'/assets/21ss.png','/assets/22ss.png','/assets/23ss.png','/assets/24ss.png','/assets/25ss.png','/assets/26ss.png','/assets/27ss.png','/assets/28ss.png','/assets/29ss.png','/assets/30ss.png',
+	      '/assets/31ss.png','/assets/32ss.png','/assets/33ss.png','/assets/34ss.png','/assets/35ss.png','/assets/36ss.png','/assets/37ss.png','/assets/38ss.png','/assets/39ss.png','/assets/40ss.png',
+	      '/assets/41ss.png','/assets/42ss.png','/assets/43ss.png','/assets/44ss.png','/assets/45ss.png','/assets/46ss.png','/assets/47ss.png','/assets/48ss.png','/assets/49ss.png','/assets/50ss.png'];
+			var skins = ['/models/gltf/LeePerrySmith/Map-COL5.jpg','/models/gltf/LeePerrySmith/Map-COL6.jpg', '/models/gltf/LeePerrySmith/Map-COL7.jpg', '/models/gltf/LeePerrySmith/Map-COL8.jpg'];
 	      scene = new THREE.Scene();
 			
 			var decalMaterial = new THREE.MeshPhongMaterial( { 
 				specular: 0xffffff,
 				shininess: 10,
-				map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
-				normalMap: THREE.ImageUtils.loadTexture( '../NewVersion/assets/wrinkle-normal.jpg' ),
+				map: textureLoader.load( designs[addFile] ), 
+				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
 				normalScale: new THREE.Vector2( .15, .15 ),
 				transparent: true, 
 				depthTest: true, 
@@ -140,8 +133,9 @@ const boxDepth = 15;
 				polygonOffsetFactor: -4, 
 				wireframe: false 
 			});
-			//newCube();
+			
 			var decals = [];
+			
 			function removeDecals() {
 
 				decals.forEach( function ( d ) {
@@ -153,16 +147,19 @@ const boxDepth = 15;
 				decals = [];
 
 			}
+			function removeDecals2() {
+				var number = params.Choose;
+					scene.remove( decals[number] );		
+			}
 			
-		function nextTattoo(){
+	function nextTattoo(){
 	addFile = addFile + 1;
-	console.log(addFile);
-	if(addFile > 40){addFile = 0;}
+	if(addFile > 50){addFile = 0;}
 	updateCube();
 	}
 	function prevTattoo(){
 	addFile = addFile - 1;
-	if(addFile < 0){addFile = 40;}
+	if(addFile < 0){addFile = 50;}
 	console.log(addFile);
 	updateCube();
 }
@@ -181,7 +178,7 @@ function prevSkin(){
 }
 	function updateCube(){
 	var materialB = new THREE.MeshPhongMaterial( {
-			map: THREE.ImageUtils.loadTexture( designs[addFile] ),
+			map: textureLoader.load( designs[addFile] ),
 			shininess: 10,
 			transparent: true,
 		} );		
@@ -191,7 +188,7 @@ function prevSkin(){
 	color: 0xffffff,
 	specular: 0xffffff,
 	shininess: 10,
-	map: THREE.ImageUtils.loadTexture( designs[addFile] ), 
+	map: textureLoader.load( designs[addFile] ), 
 	transparent: true, 
 	depthTest: true, 
 	depthWrite: false, 
@@ -205,7 +202,7 @@ function prevSkin(){
 	mesh.material = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[skinType] ),
-						shininess: 25
+						shininess: 5
 					} );
 	}
 	
@@ -227,61 +224,19 @@ function prevSkin(){
 <!-- </div> -->
 		</div><script type="module">
 
-			import * as THREE from '../build/three.module.js';
+			import * as THREE from '/build/three.module.js';
 
-			import Stats from '../NewVersion/jsm/libs/stats.module.js';
-			import { GUI } from '../NewVersion/jsm/libs/dat.gui.module.js';
+			import { GUI } from '/jsm/libs/dat.gui.module.js';
 
-			import { OrbitControls } from '../NewVersion/jsm/controls/OrbitControls.js';
-			import { GLTFLoader } from '../NewVersion/jsm/loaders/GLTFLoader.js';
-			import { DecalGeometry } from '../NewVersion/jsm/geometries/DecalGeometry.js';
-			
+			import { OrbitControls } from '/jsm/controls/OrbitControls.js';
+			import { GLTFLoader } from '/jsm/loaders/GLTFLoader.js';
+			import { DecalGeometry } from '/jsm/geometries/DecalGeometry.js';
+			import { nextTattoo } from '/jsm/tattoo/nextTattoo.js';
 
 			var container = document.getElementById( 'container' );
-			//var addFile = 0;
-			//var skinType = 0;
+
 			console.log(addFile);
-			
 
-/* 
-const boxWidth = 15;
-const boxHeight = 15;
-const boxDepth = 15;
-
-			var renderer, scene, camera, stats;
-			var mesh, mesh2;
-			var raycaster;
-			var line;
-
-			var intersection = {
-				intersects: false,
-				point: new THREE.Vector3(),
-				normal: new THREE.Vector3()
-			};
-			var mouse = new THREE.Vector2();
-
-			var textureLoader = new THREE.TextureLoader();
-			var decalDiffuse = textureLoader.load( '../NewVersion/textures/decal/decal-diffuse.png' );
-			var decalNormal = textureLoader.load( '../NewVersion/textures/decal/decal-normal.jpg' );
-			console.log(addFile);
-			
-			var mouseHelper;
-			var position = new THREE.Vector3();
-			var orientation = new THREE.Euler();
-			var size = new THREE.Vector3( 10, 10, 10 );
-
-			var params = {
-				minScale: 10,
-				maxScale: 20,
-				rotate: true,
-				clear: function () {
-
-					removeDecals();
-
-				}
-			};
-			
-*/
 			window.addEventListener( 'load', init );
 			
 	
@@ -297,8 +252,6 @@ const boxDepth = 15;
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
-				//stats = new Stats();
-				//container.appendChild( stats.dom );
 
 				scene = new THREE.Scene();
 
@@ -423,11 +376,14 @@ const boxDepth = 15;
 				r = new THREE.Vector3( 0, 0, 0 );
 				var gui = new GUI();
 
-				gui.add( params, 'minScale', 1, 30 );
-				gui.add( params, 'maxScale', 1, 30 );
-				gui.add( params, 'rotate', 0,360 );
-				gui.add( params, 'clear' );
+				//gui.add( params, 'minScale', 1, 30 );
+				gui.add( params, 'Scale', 1, 30 );
+				gui.add( params, 'Rotation', 0,360 );
+				gui.add( params, 'Clear' );
+				gui.add( params, 'Choose', 0, 200 );
+				gui.add( params, 'ClearOne' );
 				gui.open();
+				
 
 				onWindowResize();
 				animate();
@@ -437,26 +393,26 @@ const boxDepth = 15;
 	var materialC = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[0] ),
-						shininess: 25
+						shininess: 5
 					} );
-	var	geometryB = new THREE.BoxGeometry(14.9, 15.5, 14.9);
+	var	geometryB = new THREE.BoxGeometry(9.9, 10.5, 9.9);
 	console.log("new cube");
 	cubeC = new THREE.Mesh( geometryB, materialC ); 
-	cubeC.position.set(30,20,10);
+	cubeC.position.set(28,35,10);
 	//cubeC.scale.set( 0.8, 0.8, 0.8 );
 		scene.add( cubeC );
 		
 	var materialB = new THREE.MeshPhongMaterial( {
 		
-			map: THREE.ImageUtils.loadTexture( designs[addFile] ),
+			map: textureLoader.load( designs[addFile] ),
 			shininess: 10,
 			transparent: true
 		} );
 	
-		geometryB = new THREE.BoxGeometry(15, 15, 15);
+		geometryB = new THREE.BoxGeometry(10, 10, 10);
 	
 	cube = new THREE.Mesh( geometryB, materialB );
-	cube.position.set(30,20,10);
+	cube.position.set(28,35,10);
 	scene.add( cube );
 
 	}
@@ -470,7 +426,11 @@ const boxDepth = 15;
 				loader.load( 'models/gltf/LeePerrySmith/LeePerrySmith3.glb', function ( gltf ) {
 
 					mesh = gltf.scene.children[ 0 ];
-					
+					mesh.material = new THREE.MeshPhongMaterial( {
+						specular: 0x111111,
+						map: textureLoader.load( skins[0] ),
+						shininess: 5
+					} );
 
 					scene.add( mesh );
 					mesh.scale.set( 50, 50, 50 );
@@ -480,9 +440,9 @@ const boxDepth = 15;
 
 					mesh2 = gltf2.scene.children[ 0 ];
 					mesh2.material = new THREE.MeshPhongMaterial( {
-						specular: 0x1111ff,
+						specular: 0x111111,
 						map: textureLoader.load( 'models/gltf/LeePerrySmith/Map-COL4.jpg' ),
-						shininess: 25
+						shininess: 5
 					} );
 					
 
@@ -498,10 +458,10 @@ const boxDepth = 15;
 				position.copy( intersection.point );
 				orientation.copy( mouseHelper.rotation );
 
-				r.z = params.rotate/180*Math.PI;
-
-				var scale = params.minScale + Math.random() * ( params.maxScale - params.minScale );
-				size.set( scale, scale, scale );
+				orientation.z = params.Rotation/180*Math.PI;
+				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
+				var Scale = params.Scale;
+				size.set( Scale, Scale, Scale );
 
 				var material = decalMaterial.clone();
 				material.color.setHex( Math.random() * 0xffffff );
