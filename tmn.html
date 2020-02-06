@@ -122,7 +122,7 @@ p {
 			
 			var decalMaterial = new THREE.MeshPhongMaterial( { 
 				specular: 0xffffff,
-				shininess: 10,
+				shininess: 0,
 				map: textureLoader.load( designs[addFile] ), 
 				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
 				normalScale: new THREE.Vector2( .15, .15 ),
@@ -186,8 +186,8 @@ function prevSkin(){
 	cube.material = materialB ;
 	decalMaterial = new THREE.MeshPhongMaterial( { 
 	color: 0xffffff,
-	specular: 0xffffff,
-	shininess: 10,
+	specular: 0x111111,
+	shininess: 0,
 	map: textureLoader.load( designs[addFile] ), 
 	transparent: true, 
 	depthTest: true, 
