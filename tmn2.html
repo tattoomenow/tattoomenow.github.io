@@ -154,6 +154,21 @@ p {
 				var number = params.Choose;
 					scene.remove( decals[number] );		
 			}
+function shoot() {
+	nextSkin();
+	position.copy( intersection.point );
+	orientation.copy( mouseHelper.rotation );
+	orientation.z = params.Rotation/180*Math.PI;
+	if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
+	var Scale = params.Scale;
+	size.set( Scale, Scale, Scale );
+	var material = decalMaterial.clone();
+	material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
+	
+	decals.push( m );
+	scene.add( m );
+}
 			
 	function nextTattoo(){
 	addFile = addFile + 1;
@@ -176,7 +191,21 @@ function nextSkin(){
 function prevSkin(){
 	skinType = skinType - 1;
 	if(skinType < 0){skinType = 3;}
+	function shoot() {
+	nextSkin();
+	position.copy( intersection.point );
+	orientation.copy( mouseHelper.rotation );
+	orientation.z = params.Rotation/180*Math.PI;
+	if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
+	var Scale = params.Scale;
+	size.set( Scale, Scale, Scale );
+	var material = decalMaterial.clone();
+	material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 	
+	decals.push( m );
+	scene.add( m );
+}
 	updateSkin();
 }
 	function updateCube(){
@@ -208,20 +237,7 @@ function prevSkin(){
 						shininess: 1
 					} );
 	}
-function shoot() {
-	position.copy( intersection.point );
-	orientation.copy( mouseHelper.rotation );
-	orientation.z = params.Rotation/180*Math.PI;
-	if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-	var Scale = params.Scale;
-	size.set( Scale, Scale, Scale );
-	var material = decalMaterial.clone();
-	material.color.setHex(0x000000);//( Math.random() * 0xffffff );
-	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-	nextSkin();
-	decals.push( m );
-	scene.add( m );
-}
+
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
 	var materialC = new THREE.MeshPhongMaterial( {
