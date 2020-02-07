@@ -105,6 +105,7 @@ p {
 			
 			var mouseHelper;
 			var position = new THREE.Vector3();
+			var positionA = new THREE.Vector3();
 			var orientation = new THREE.Euler();
 			var size = new THREE.Vector3( 10, 10, 10 );
 			var r = new THREE.Vector3( 0, 0, 0 );
@@ -156,15 +157,16 @@ p {
 			}
 function shoot() {
 	nextSkin();
-	position.copy( intersection.point );
+	positionA.copy( intersection.point );
+	position.set(28,35,10);
 	orientation.copy( mouseHelper.rotation );
 	orientation.z = 0;//params.Rotation/180*Math.PI;
-	if(position.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
+	if(positionA.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
 	var Scale = params.Scale;
 	size.set( Scale, Scale, Scale );
 	var material = decalMaterial.clone();
 	material.color.setHex(0x111111);//( Math.random() * 0xffffff );
-	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
+	var m = new THREE.Mesh( new DecalGeometry( mesh, positionA, 0, size ), material );
 	
 	decals.push( m );
 	scene.add( m );
