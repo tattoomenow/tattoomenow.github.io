@@ -81,7 +81,9 @@ p {
 }
 		</style>
 		<script type="text/javascript" src="jsm/tattoo/three.min.js"></script>
+
 		<script type="text/javascript">	
+			//import { DecalGeometry } from '/jsm/geometries/DecalGeometry.js';
 			var renderer, scene, camera, stats;
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
@@ -205,7 +207,6 @@ function prevSkin(){
 						shininess: 1
 					} );
 	}
-	
 
 	</script>
 		
@@ -236,9 +237,7 @@ function prevSkin(){
 
 			var container = document.getElementById( 'container' );
 
-			console.log(addFile);
-
-			window.addEventListener( 'load', init );
+			window.addEventListener( 'load', init ); //window refers to the global window; ie makes this a global accesable outside the module
 			
 	
 			
@@ -488,7 +487,7 @@ function prevSkin(){
 				size.set( Scale, Scale, Scale );
 
 				var material = decalMaterial.clone();
-				material.color.setHex( Math.random() * 0xffffff );
+				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 
@@ -496,7 +495,7 @@ function prevSkin(){
 				scene.add( m );
 
 			}
-
+			window.shoot = shoot; //window refers to the global window; ie makes this a global accesable outside the module
 			
 
 			function onWindowResize() {
