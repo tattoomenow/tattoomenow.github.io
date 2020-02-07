@@ -302,6 +302,12 @@ function prevSkin(){
 
 				window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
 				window.addEventListener('touchstart', onDocumentTouchStart, false);//theuns
+				window.addEventListener('touchstart', function () {//theuns
+
+					checkIntersection();
+					if ( ! moved && intersection.intersects ) shoot();
+
+				} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
 				//controls.addEventListener( 'change', () => renderer.render( scene, camera ) );//theuns
 
@@ -337,17 +343,19 @@ function prevSkin(){
 				}
 
 function onDocumentMouseDown(event){//theuns
-  projector = new THREE.Projector();
-  var vector = new THREE.Vector3( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1, 0.5 );
-  projector.unprojectVector(vector,camera);
-  raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize() );
+  mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
+raycaster.setFromCamera( mouse, camera );
+var intersects = raycaster.intersectObjects( [ mesh ] );
+
+					//if ( intersects.length > 0 ) {
   //...managing intersects
-  var intersects = raycaster.intersectObjects( collidableMeshList );
+  //var intersects = raycaster.intersectObjects( collidableMeshList );
   if ( intersects.length > 0 ) {
   //...etc
   checkIntersection();//theuns
-					if ( ! moved && intersection.intersects ) shoot();//theuns
+					if (intersection.intersects ) shoot();//if ( ! moved && intersection.intersects ) shoot();//theuns
     }
   event.preventDefault();
 }
@@ -406,7 +414,7 @@ function onDocumentMouseDown(event){//theuns
 
 					} else {
 
-						intersection.intersects = true;
+						intersection.intersects = true;//theuns
 
 					}
 
