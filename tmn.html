@@ -387,7 +387,7 @@ console.log("e");
 
 				function checkIntersection() {
 
-					//if ( ! mesh ) return;//theuns
+					if ( ! mesh ) return;//theuns
 
 					raycaster.setFromCamera( mouse, camera );
 
@@ -524,7 +524,7 @@ console.log("t");
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-
+				nextSkin();
 				decals.push( m );
 				scene.add( m );
 
