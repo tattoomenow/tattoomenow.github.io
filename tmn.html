@@ -242,7 +242,7 @@ function prevSkin(){
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-
+				nextSkin();
 				decals.push( m );
 				scene.add( m );
 
