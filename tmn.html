@@ -83,7 +83,6 @@ p {
 		<script type="text/javascript" src="jsm/tattoo/three.min.js"></script>
 
 		<script type="text/javascript">	
-			//import { DecalGeometry } from '/jsm/geometries/DecalGeometry.js';
 			var renderer, scene, camera, stats;
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
@@ -250,7 +249,7 @@ function prevSkin(){
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
-				//import { DecalGeometry } from '/jsm/geometries/DecalGeometry.js';container.appendChild( renderer.domElement );
+				container.appendChild( renderer.domElement );
 
 
 				scene = new THREE.Scene();
@@ -382,7 +381,7 @@ function prevSkin(){
 
 					} else {
 
-						intersection.intersects = false;
+						intersection.intersects = true;
 
 					}
 
