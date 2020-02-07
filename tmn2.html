@@ -134,7 +134,7 @@ p {
 				depthTest: true, 
 				depthWrite: false, 
 				polygonOffset: true,
-				polygonOffsetFactor: -4, 
+				polygonOffsetFactor: -0, 
 				wireframe: false 
 			});
 			
@@ -158,7 +158,7 @@ p {
 function shoot() {
 	nextSkin();
 	positionA.copy( intersection.point );
-	positionA.set(0,10,0);
+	//positionA.set(0,10,0);
 	orientation.copy( mouseHelper.rotation );
 	orientation.z = 0;//params.Rotation/180*Math.PI;
 	if(positionA.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
@@ -166,7 +166,7 @@ function shoot() {
 	size.set( Scale, Scale, Scale );
 	var material = decalMaterial.clone();
 	material.color.setHex(0x111111);//( Math.random() * 0xffffff );
-	var m = new THREE.Mesh( new DecalGeometry( mesh, positionA, 0, size ), material );
+	var m = new THREE.Mesh( new DecalGeometry( mesh, positionA, orientation, size ), material );
 	
 	decals.push( m );
 	scene.add( m );
