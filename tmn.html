@@ -39,25 +39,7 @@ p {
 #gallery {
   margin-top: 5px;
 }
-#gallery img {			function shoot() {
-
-				position.copy( intersection.point );
-				orientation.copy( mouseHelper.rotation );
-
-				orientation.z = params.Rotation/180*Math.PI;
-				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-				var Scale = params.Scale;
-				size.set( Scale, Scale, Scale );
-
-				var material = decalMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
-
-				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-
-				decals.push( m );
-				scene.add( m );
-
-			}
+#gallery img {
   width: 140px;
   margin-bottom: 5px;
   margin-right: 5px;
