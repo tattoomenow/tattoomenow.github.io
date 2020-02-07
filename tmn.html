@@ -302,10 +302,10 @@ function prevSkin(){
 
 				window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
 				window.addEventListener('touchstart', onDocumentTouchStart, false);//theuns
-				window.addEventListener('touchstart', function () {//theuns
+				window.addEventListener('touchend', function () {//theuns
 
 					checkIntersection();
-					if ( ! moved && intersection.intersects ) shoot();
+					//if ( ! moved && intersection.intersects ) shoot();
 
 				} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -343,6 +343,7 @@ function prevSkin(){
 				}
 
 function onDocumentMouseDown(event){//theuns
+	console.log("q");
   mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
@@ -355,13 +356,14 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
   if ( intersects.length > 0 ) {
   //...etc
   checkIntersection();//theuns
-					if (intersection.intersects ) shoot();//if ( ! moved && intersection.intersects ) shoot();//theuns
+  console.log("w");
+					//if (intersection.intersects ) shoot();//if ( ! moved && intersection.intersects ) shoot();//theuns
     }
   event.preventDefault();
 }
 
 				function onTouchMove( event ) {
-
+console.log("e");
 					var x, y;
 
 					if ( event.changedTouches ) {
@@ -392,7 +394,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 					var intersects = raycaster.intersectObjects( [ mesh ] );
 
 					if ( intersects.length > 0 ) {
-
+console.log("r");
 						var p = intersects[ 0 ].point;
 						mouseHelper.position.copy( p );
 						intersection.point.copy( p );
@@ -414,8 +416,8 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 
 					} else {
 
-						intersection.intersects = true;//theuns
-
+						intersection.intersects = false;//theuns
+console.log("t");
 					}
 
 				}
