@@ -305,7 +305,7 @@ function prevSkin(){
 				window.addEventListener('touchend', function () {//theuns
 
 					checkIntersection();
-					//if ( ! moved && intersection.intersects ) shoot();
+					if ( ! moved && intersection.intersects ) shoot();
 
 				} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
