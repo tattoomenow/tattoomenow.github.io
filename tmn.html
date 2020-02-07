@@ -219,6 +219,7 @@ function prevSkin(){
 		<img src="assets/next2.png" width="48" height="48" onclick="prevTattoo()"></img><br><br>
 		<img src="assets/nexts.png"  width="48" height="48" onclick="nextSkin()" ></img><br><br>
 		<img src="assets/next2s.png"  width="48" height="48" onclick="prevSkin()"></img><br><br>
+		<img src="assets/tattoo.png"  width="48" height="48" onclick="shoot()"></img><br><br>
   </form>
 
 <!-- </div> -->
@@ -304,7 +305,7 @@ function prevSkin(){
 				window.addEventListener( 'resize', onWindowResize, false );
 				controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
-				var moved = true; //theuns
+				var moved = false; //theuns
 
 				controls.addEventListener( 'change', function () {
 
