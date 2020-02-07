@@ -158,7 +158,7 @@ p {
 function shoot() {
 	nextSkin();
 	positionA.copy( intersection.point );
-	positionA.set(0,20,15);
+	positionA.set(0,10,0);
 	orientation.copy( mouseHelper.rotation );
 	orientation.z = 0;//params.Rotation/180*Math.PI;
 	if(positionA.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
