@@ -53,9 +53,7 @@ p {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-.button:hover {<h1 class="glow">Change Tattoo</h1>
-  <img src="assets/rarrow3.png" onclick="prevTattoo()"></img>
-		<img src="assets/garrow3.png" onclick="nextTattoo()" ></img><br>
+.button:hover {
   background: #ddd;
 }
 #fileElem {
@@ -103,7 +101,7 @@ p {
 			var textureLoader = new THREE.TextureLoader(); //THREE.ImageUtils.loadTexture
 			var decalDiffuse = textureLoader.load( '/textures/decal/decal-diffuse.png' );
 			var decalNormal = textureLoader.load( '/textures/decal/decal-normal.jpg' );
-			console.log(addFile);
+			
 			
 			var mouseHelper;
 			var position = new THREE.Vector3();
@@ -165,20 +163,20 @@ p {
 	function prevTattoo(){
 	addFile = addFile - 1;
 	if(addFile < 0){addFile = 50;}
-	console.log(addFile);
+	
 	updateCube();
 }
 
 function nextSkin(){
 	skinType = skinType + 1;
 	if(skinType > 3){skinType = 0;}
-	console.log(skinType);
+	
 	updateSkin();
 }
 function prevSkin(){
 	skinType = skinType - 1;
 	if(skinType < 0){skinType = 3;}
-	console.log(skinType);
+	
 	updateSkin();
 }
 	function updateCube(){
@@ -237,7 +235,7 @@ function prevSkin(){
 						shininess: 1
 					} );
 	var	geometryB = new THREE.BoxGeometry(9.9, 10.5, 9.9);
-	console.log("new cube");
+	
 	cubeC = new THREE.Mesh( geometryB, materialC ); 
 	cubeC.position.set(28,35,10);
 	//cubeC.scale.set( 0.8, 0.8, 0.8 );
@@ -320,7 +318,7 @@ function onDocumentTouchStart(event){//theuns
 				}
 
 function onDocumentMouseDown(event){//theuns
-	console.log("q");
+	
   mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
@@ -333,14 +331,14 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
   if ( intersects.length > 0 ) {
   //...etc
   checkIntersection();//theuns
-  console.log("w");
+  
 					//if (intersection.intersects ) shoot();//if ( ! moved && intersection.intersects ) shoot();//theuns
     }
   event.preventDefault();
 }
 
 				function onTouchMove( event ) {
-console.log("e");
+
 					var x, y;
 
 					if ( event.changedTouches ) {
@@ -371,7 +369,7 @@ console.log("e");
 					var intersects = raycaster.intersectObjects( [ mesh ] );
 
 					if ( intersects.length > 0 ) {
-console.log("r");
+
 						var p = intersects[ 0 ].point;
 						mouseHelper.position.copy( p );
 						intersection.point.copy( p );
@@ -394,7 +392,7 @@ console.log("r");
 					} else {
 
 						intersection.intersects = false;//theuns
-console.log("t");
+
 					}
 
 				}
@@ -433,7 +431,8 @@ console.log("t");
 			window.addEventListener( 'load', init ); //window refers to the global window; ie makes this a global accesable outside the module
 			window.DecalGeometry = DecalGeometry; //window refers to the global window; ie makes this a global accesable outside the module
 			window.GLTFLoader = GLTFLoader; //window refers to the global window; ie makes this a global accesable outside the module
-			
+			//window.GUI = GUI; //window refers to the global window; ie makes this a global accesable outside the module
+			window.OrbitControls = OrbitControls; //window refers to the global window; ie makes this a global accesable outside the module
 
 
 
@@ -473,15 +472,7 @@ console.log("t");
 				line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );
 				newCube();
-
-				loadLeePerrySmith();
-
-				raycaster = new THREE.Raycaster();
-
-				mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 10 ), new THREE.MeshNormalMaterial() );
-				mouseHelper.visible = false;
-				scene.add( mouseHelper );
-				r = new THREE.Vector3( 0, 0, 0 );
+				
 				var gui = new GUI();
 
 				//gui.add( params, 'minScale', 1, 30 );
@@ -491,6 +482,16 @@ console.log("t");
 				gui.add( params, 'Choose', 0, 200 );
 				gui.add( params, 'ClearOne' );
 				gui.open();
+
+				loadLeePerrySmith();
+
+				raycaster = new THREE.Raycaster();
+
+				mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 10 ), new THREE.MeshNormalMaterial() );
+				mouseHelper.visible = false;
+				scene.add( mouseHelper );
+				r = new THREE.Vector3( 0, 0, 0 );
+				
 				
 
 				window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
