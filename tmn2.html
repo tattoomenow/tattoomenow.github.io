@@ -105,7 +105,6 @@ p {
 			
 			var mouseHelper;
 			var position = new THREE.Vector3();
-			var positionA = new THREE.Vector3();
 			var orientation = new THREE.Euler();
 			var size = new THREE.Vector3( 10, 10, 10 );
 			var r = new THREE.Vector3( 0, 0, 0 );
@@ -134,7 +133,7 @@ p {
 				depthTest: true, 
 				depthWrite: false, 
 				polygonOffset: true,
-				polygonOffsetFactor: -10, 
+				polygonOffsetFactor: -4, 
 				wireframe: false 
 			});
 			
@@ -155,22 +154,6 @@ p {
 				var number = params.Choose;
 					scene.remove( decals[number] );		
 			}
-function shoot() {
-	nextSkin();
-	positionA.copy( intersection.point );
-	//positionA.set(0,10,0);
-	orientation.copy( mouseHelper.rotation );
-	orientation.z = 0;//params.Rotation/180*Math.PI;
-	if(positionA.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
-	var Scale = params.Scale;
-	size.set( Scale, Scale, Scale );
-	var material = decalMaterial.clone();
-	material.color.setHex(0x111111);//( Math.random() * 0xffffff );
-	var m = new THREE.Mesh( new DecalGeometry( mesh, positionA, orientation, size ), material );
-	
-	decals.push( m );
-	scene.add( m );
-}
 			
 	function nextTattoo(){
 	addFile = addFile + 1;
@@ -193,21 +176,7 @@ function nextSkin(){
 function prevSkin(){
 	skinType = skinType - 1;
 	if(skinType < 0){skinType = 3;}
-	function shoot() {
-	nextSkin();
-	position.copy( intersection.point );
-	orientation.copy( mouseHelper.rotation );
-	orientation.z = params.Rotation/180*Math.PI;
-	if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-	var Scale = params.Scale;
-	size.set( Scale, Scale, Scale );
-	var material = decalMaterial.clone();
-	material.color.setHex(0x000000);//( Math.random() * 0xffffff );
-	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 	
-	decals.push( m );
-	scene.add( m );
-}
 	updateSkin();
 }
 	function updateCube(){
@@ -239,7 +208,20 @@ function prevSkin(){
 						shininess: 1
 					} );
 	}
-
+function shoot() {
+	position.copy( intersection.point );
+	orientation.copy( mouseHelper.rotation );
+	orientation.z = params.Rotation/180*Math.PI;
+	if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
+	var Scale = params.Scale;
+	size.set( Scale, Scale, Scale );
+	var material = decalMaterial.clone();
+	material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+	var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
+	
+	decals.push( m );
+	scene.add( m );
+}
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
 	var materialC = new THREE.MeshPhongMaterial( {
@@ -284,9 +266,10 @@ function prevSkin(){
 						specular: 0x111111,
 						shininess: 1
 					} );
+				scene.add( mesh );
 				}
 
-					scene.add( mesh );
+					
 
 				if(1==1){ //set second value to 0 for testing 1 to go
 				var loader = new GLTFLoader();
@@ -424,7 +407,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 		<img src="assets/next.png"  width="48" height="48" onclick="nextTattoo()"></img><br><br>
 		<img src="assets/next2.png" width="48" height="48" onclick="prevTattoo()"></img><br><br>
 		<img src="assets/nexts.png"  width="48" height="48" onclick="nextSkin()" ></img><br><br>
-		<img src="assets/next2s.png"  width="48" height="48" onclick="prevSkin()"></img><br><br>
+		<img src="assets/next2s.png"  width="48" height="48" onclick="prevSkin()"></img>orientation<br><br>
 		<img src="assets/tattoo.png"  width="48" height="48" onclick="shoot()"></img><br><br>
   </form>
 
