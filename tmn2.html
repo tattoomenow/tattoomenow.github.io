@@ -159,7 +159,7 @@ function shoot() {
 	position.copy( intersection.point );
 	orientation.copy( mouseHelper.rotation );
 	orientation.z = 0;//params.Rotation/180*Math.PI;
-	if(position.z < 0){orientation.z = 0;//params.Rotation/180*Math.PI + Math.PI;}
+	if(position.z < 0){orientation.z = 0;}//params.Rotation/180*Math.PI + Math.PI;}
 	var Scale = params.Scale;
 	size.set( Scale, Scale, Scale );
 	var material = decalMaterial.clone();
