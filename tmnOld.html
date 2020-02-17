@@ -299,9 +299,9 @@ function prevSkin(){
 				gui.open();
 				
 
-				window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
+				//window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
 				//window.addEventListener('touchstart', onDocumentTouchStart, false);//theuns
-				window.addEventListener('touchend', function () {//theuns
+				//window.addEventListener('touchend', function () {//theuns
 
 					checkIntersection();
 					//if ( ! moved && intersection.intersects ) shoot();
@@ -339,10 +339,10 @@ function prevSkin(){
 					event.clientX = event.touches[0].clientX;
 					event.clientY = event.touches[0].clientY;
 					onDocumentMouseDown(event);
-				}*/
+				}*/MouseDown
 
-function onDocumentMouseDown(event){//theuns
-	console.log("q");
+function onDocumentmouseup(event){//theuns MouseDown
+	console.log(mouseup"q");
   mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
 
