@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>11 Tattoo Simulation</title>
+		<title>22 Tattoo Simulation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-Scale=1.0, maximum-Scale=1.0">
 		<style>
@@ -251,6 +251,8 @@ function prevSkin(){
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
 
+				stats = new Stats();
+				container.appendChild( stats.dom );
 
 				scene = new THREE.Scene();
 
@@ -261,16 +263,15 @@ function prevSkin(){
 				var controls = new OrbitControls( camera, renderer.domElement );
 				controls.minDistance = 50;
 				controls.maxDistance = 200;
-				controls.screenSpacePanning = true;
 
-				scene.add( new THREE.AmbientLight( 0x888888 ) );
+				scene.add( new THREE.AmbientLight( 0x443333 ) );
 
-				var light = new THREE.DirectionalLight( 0xbbaa55, 1 );
-				light.position.set( 1000, 750, 500 );
+				var light = new THREE.DirectionalLight( 0xffddcc, 1 );
+				light.position.set( 1, 0.75, 0.5 );
 				scene.add( light );
 
-				var light = new THREE.DirectionalLight( 0xaaaabb, 1 );
-				light.position.set( - 1000, 750, - 500 );
+				var light = new THREE.DirectionalLight( 0xccccff, 1 );
+				light.position.set( - 1, 0.75, - 0.5 );
 				scene.add( light );
 
 				var geometry = new THREE.BufferGeometry();
@@ -278,7 +279,6 @@ function prevSkin(){
 
 				line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );
-				newCube();
 
 				loadLeePerrySmith();
 
@@ -287,30 +287,10 @@ function prevSkin(){
 				mouseHelper = new THREE.Mesh( new THREE.BoxBufferGeometry( 1, 1, 10 ), new THREE.MeshNormalMaterial() );
 				mouseHelper.visible = false;
 				scene.add( mouseHelper );
-				r = new THREE.Vector3( 0, 0, 0 );
-				var gui = new GUI();
 
-				//gui.add( params, 'minScale', 1, 30 );
-				gui.add( params, 'Scale', 1, 30 );
-				gui.add( params, 'Rotation', 0,360 );
-				gui.add( params, 'Clear' );
-				gui.add( params, 'Choose', 0, 200 );
-				gui.add( params, 'ClearOne' );
-				gui.open();
-				
-
-				//window.addEventListener('mousedown', onDocumentMouseDown, false);//theuns
-				//window.addEventListener('touchstart', onDocumentTouchStart, false);//theuns
-				//window.addEventListener('touchend', function () {//theuns
-
-					//checkIntersection();
-					//if ( ! moved && intersection.intersects ) shoot();
-
-				//} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
-				//controls.addEventListener( 'change', () => renderer.render( scene, camera ) );//theuns
 
-				var moved = false; //theuns
+				var moved = false;
 
 				controls.addEventListener( 'change', function () {
 
@@ -333,36 +313,9 @@ function prevSkin(){
 
 				window.addEventListener( 'mousemove', onTouchMove );
 				window.addEventListener( 'touchmove', onTouchMove );
-				
-				/*function onDocumentTouchStart(event){//theuns
-					event.preventDefault();
-					event.clientX = event.touches[0].clientX;
-					event.clientY = event.touches[0].clientY;
-					onDocumentMouseDown(event);
-				}*/ //MouseDown
-
-function onDocumentmouseup(event){//theuns MouseDown
-	console.log("mouseup");
-  mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-raycaster.setFromCamera( mouse, camera );
-var intersects = raycaster.intersectObjects( [ mesh ] );
-
-					//if ( intersects.length > 0 ) {
-  //...managing intersects
-  //var intersects = raycaster.intersectObjects( collidableMeshList );
-  if ( intersects.length > 0 ) {
-  //...etc
-  checkIntersection();//theuns
-  console.log("w");
-					//if (intersection.intersects ) shoot();//if ( ! moved && intersection.intersects ) shoot();//theuns
-    }
-  event.preventDefault();
-}
 
 				function onTouchMove( event ) {
-console.log("e");
+
 					var x, y;
 
 					if ( event.changedTouches ) {
