@@ -210,9 +210,12 @@ function prevSkin(){
 	}
 			function tag() {
                                 position.copy( intersection.point );
+				nextSkin();
+				prevSkin();
 				
 			}
 				function shoot() {
+					prevSkin();
 				orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
