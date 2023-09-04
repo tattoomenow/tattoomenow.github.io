@@ -216,8 +216,9 @@ function prevSkin(){
 				orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-				size.set( Scale, Scale, Scale );
 				var Scale = params.Scale;
+				size.set( Scale, Scale, Scale );
+				
 				var material = decalMaterial.clone();
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
@@ -521,7 +522,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				window.addEventListener( 'mouseup', function () {
 
 					checkIntersection();
-					if ( ! moved && intersection.intersects ) shoot();
+					if ( ! moved && intersection.intersects ) tag();
 
 				} );
 
