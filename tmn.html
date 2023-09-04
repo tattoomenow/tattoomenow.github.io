@@ -208,24 +208,21 @@ function prevSkin(){
 						shininess: 1
 					} );
 	}
-				function shoot() {
-
-				position.copy( intersection.point );
+			function tag() {
+                                position.copy( intersection.point );
 				orientation.copy( mouseHelper.rotation );
-
 				orientation.z = params.Rotation/180*Math.PI;
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-				var Scale = params.Scale;
 				size.set( Scale, Scale, Scale );
-
+			}
+				function shoot() {
+				var Scale = params.Scale;
 				var material = decalMaterial.clone();
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
-
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				nextSkin();
 				decals.push( m );
 				scene.add( m );
-
 			}
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
@@ -412,6 +409,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 		<img src="assets/next2.png" width="48" height="48" onclick="prevTattoo()"></img><br><br>
 		<img src="assets/nexts.png"  width="48" height="48" onclick="nextSkin()" ></img><br><br>
 		<img src="assets/next2s.png"  width="48" height="48" onclick="prevSkin()"></img><br><br>
+	        <img src="assets/target.png"  width="48" height="48" onclick="tag()"></img><br><br>
 		<img src="assets/tattoo.png"  width="48" height="48" onclick="shoot()"></img><br><br>
   </form>
 
