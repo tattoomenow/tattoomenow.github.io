@@ -210,12 +210,13 @@ function prevSkin(){
 	}
 			function tag() {
                                 position.copy( intersection.point );
+				
+			}
+				function shoot() {
 				orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
 				size.set( Scale, Scale, Scale );
-			}
-				function shoot() {
 				var Scale = params.Scale;
 				var material = decalMaterial.clone();
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
