@@ -532,6 +532,12 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				geometry.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
 				geometry2 = new THREE.BufferGeometry();
 				geometry2.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
+				geometry3 = new THREE.BufferGeometry();
+				geometry3.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
+				geometry4 = new THREE.BufferGeometry();
+				geometry4.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
+				geometry5 = new THREE.BufferGeometry();
+				geometry5.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
 
 				line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );
