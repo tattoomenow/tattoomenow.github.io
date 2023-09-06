@@ -262,16 +262,18 @@ function removeTag() {
 					prevSkin();			
 					orientation.z = params.Rotation/180*Math.PI;	
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
-				var Scale = params.Scale;
+				const Scale = params.Scale;
 				size.set( Scale, Scale, Scale );
 				
-				var material = decalMaterial.clone();
+				const material = decalMaterial.clone();
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
-				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-				nextSkin();
+				const m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
+				
+				m.renderOrder = decals.length; // give decals a fixed render order
 				decals.push( m );
 				scene.add( m );
-				tattoos = tattoos + 1;					
+				tattoos = tattoos + 1;
+					nextSkin();
 			}
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
