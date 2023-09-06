@@ -537,7 +537,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				window.addEventListener('touchend', function () {//theuns
 
 					checkIntersection();
-					if ( ! moved && intersection.intersects ) tag();
+					if ( intersection.intersects ) tag(); // ! moved &&
 
 				} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
@@ -560,7 +560,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				window.addEventListener( 'mouseup', function () {
 
 					checkIntersection();
-					if ( ! moved && intersection.intersects ) tag();
+					if (intersection.intersects ) tag(); // ! moved && 
 
 				} );
 
