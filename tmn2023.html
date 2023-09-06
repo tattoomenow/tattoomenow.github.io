@@ -85,12 +85,18 @@ p {
 			var light;
 			var geometry;
 			var geometry2;
+			var geometry3;
+			var geometry4;
+			var geometry5;
 			var renderer, scene, camera, stats; //was here
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
 			var projector;
 			var line;
 			var line2;
+			var line3;
+			var line4;
+			var line5;
 			var addFile = 9;
 			var skinType = 0;
 			var intersection = {
@@ -427,9 +433,21 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 						positions.setXYZ( 1, n.x, n.y, n.z );
 						positions.needsUpdate = true;
 						var positions2 = line2.geometry.attributes.position;
-						positions2.setXYZ( 0, p.x+1, p.y+1, p.z+1 );
-						positions2.setXYZ( 1, n.x+1, n.y+1, n.z+1 );
+						positions2.setXYZ( 0, p.x+1, p.y+1, p.z );
+						positions2.setXYZ( 1, n.x+1, n.y+1, n.z );
 						positions2.needsUpdate = true;
+						var positions3 = line3.geometry.attributes.position;
+						positions3.setXYZ( 0, p.x+1, p.y-1, p.z );
+						positions3.setXYZ( 1, n.x+1, n.y-1, n.z );
+						positions3.needsUpdate = true;
+						var positions4 = line4.geometry.attributes.position;
+						positions4.setXYZ( 0, p.x-1, p.y-1, p.z );
+						positions4.setXYZ( 1, n.x-1, n.y-1, n.z );
+						positions4.needsUpdate = true;
+						var positions5 = line5.geometry.attributes.position;
+						positions5.setXYZ( 0, p.x-1, p.y+1, p.z );
+						positions5.setXYZ( 1, n.x-1, n.y+1, n.z );
+						positions5.needsUpdate = true;
 
 						intersection.intersects = true;
 
@@ -518,6 +536,12 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );
 				line2 = new THREE.Line( geometry2, new THREE.LineBasicMaterial() );
+				scene.add( line2 );
+				line3 = new THREE.Line( geometry3, new THREE.LineBasicMaterial() );
+				scene.add( line2 );
+				line3 = new THREE.Line( geometry3, new THREE.LineBasicMaterial() );
+				scene.add( line2 );
+				line3 = new THREE.Line( geometry3, new THREE.LineBasicMaterial() );
 				scene.add( line2 );
 				newCube();
 				
