@@ -112,8 +112,6 @@ p {
 				Scale: 10,
 				Rotation: 0,
 				Clear: function () {removeDecals();}
-				//Choose: 1,
-				//Clear_One: function () {removeDecals2();}
 			};
 			var designs = ['/assets/1ss.png','/assets/2ss.png','/assets/3ss.png','/assets/4ss.png','/assets/5ss.png','/assets/6ss.png','/assets/7ss.png','/assets/8ss.png','/assets/9ss.png','/assets/10ss.png',
 			'/assets/11ss.png','/assets/12ss.png','/assets/13ss.png','/assets/14ss.png','/assets/15ss.png','/assets/16ss.png','/assets/17ss.png','/assets/18ss.png','/assets/19ss.png','/assets/20ss.png',
@@ -237,7 +235,7 @@ function removeTag() {
 					removeTag();
 				}				
                                 position.copy( intersection.point );
-								orientation.copy( mouseHelper.rotation );
+				orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
 				prevSkin();				
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
@@ -252,10 +250,6 @@ function removeTag() {
 				tagged = 1;
 			}
 				function shoot() {
-					if(tagged == 0){
-						
-					}
-					if(tagged == 1){
 					removeTag();
 					prevSkin();			
 					orientation.z = params.Rotation/180*Math.PI;	
@@ -269,8 +263,7 @@ function removeTag() {
 				nextSkin();
 				decals.push( m );
 				scene.add( m );
-				tattoos = tattoos + 1;
-					}
+				tattoos = tattoos + 1;					
 			}
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
