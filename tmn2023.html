@@ -84,11 +84,13 @@ p {
 			var controls;
 			var light;
 			var geometry;
+			var geometry2;
 			var renderer, scene, camera, stats; //was here
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
 			var projector;
 			var line;
+			var line2;
 			var addFile = 9;
 			var skinType = 0;
 			var intersection = {
@@ -424,6 +426,10 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 						positions.setXYZ( 0, p.x, p.y, p.z );
 						positions.setXYZ( 1, n.x, n.y, n.z );
 						positions.needsUpdate = true;
+						var positions2 = line2.geometry.attributes.position;
+						positions2.setXYZ( 0, p.x+1, p.y+1, p.z+1 );
+						positions2.setXYZ( 1, n.x+1, n.y+1, n.z+1 );
+						positions2.needsUpdate = true;
 
 						intersection.intersects = true;
 
@@ -506,9 +512,13 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 
 				geometry = new THREE.BufferGeometry();
 				geometry.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
+				geometry2 = new THREE.BufferGeometry();
+				geometry2.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
 
 				line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );
+				line2 = new THREE.Line( geometry2, new THREE.LineBasicMaterial() );
+				scene.add( line2 );
 				newCube();
 				
 				var gui = new GUI();
