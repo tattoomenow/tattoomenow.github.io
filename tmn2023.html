@@ -119,7 +119,8 @@ p {
 			var params = {
 				Scale: 5,
 				Rotation: 0,
-				Clear: function () {removeDecals();}
+				Clear: function () {removeDecals();},
+				Clear_Last: function () {removeDecals2();}
 			};
 			var designs = ['/assets/1ss.png','/assets/2ss.png','/assets/3ss.png','/assets/4ss.png','/assets/5ss.png','/assets/6ss.png','/assets/7ss.png','/assets/8ss.png','/assets/9ss.png','/assets/10ss.png',
 			'/assets/11ss.png','/assets/12ss.png','/assets/13ss.png','/assets/14ss.png','/assets/15ss.png','/assets/16ss.png','/assets/17ss.png','/assets/18ss.png','/assets/19ss.png','/assets/20ss.png',
@@ -173,8 +174,8 @@ p {
 
 			}
 			function removeDecals2() {
-				var number = params.Choose - 1;
-					scene.remove( decals[number] );	
+				let last = decals.length;
+					scene.remove( decals[last] );	
 					tattoos = tattoos - 1;	
 			}
 			
@@ -583,7 +584,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				gui.add( params, 'Rotation', 0,360 );
 				gui.add( params, 'Clear' );
 				//gui.add( params, 'Choose', 1,6 );
-				//gui.add( params, 'Clear_One' );
+				gui.add( params, 'Clear_Last' );
 				gui.open();
 
 				loadLeePerrySmith();
