@@ -99,6 +99,7 @@ p {
 			//var line5;
 			var addFile = 9;
 			var skinType = 0;
+            var pn = -1;
 			var intersection = {
 				intersects: false,
 				point: new THREE.Vector3(),
@@ -116,13 +117,22 @@ p {
 			var orientation = new THREE.Euler();
 			var size = new THREE.Vector3( 10, 10, 10 );
 			var r = new THREE.Vector3( 0, 0, 0 );
+            var tattooColorf = -1;
+            
+
+
+
 			var params = {
+                tattooC: "#000000",
+                switch: false,
+
 				Scale: 5,
 				Rotation: 0,
-				Clear: function () {removeDecals();},
+				Clear_All: function () {removeDecals();},
 				Clear_Last: function () {
-					removeDecals2();
-					let x = decals.pop();
+                    if(pn == -1){removeDecals2();}
+					if(pn == 1){let x = decals.pop();}
+                    pn = pn*(-1);
 				}
 			};
 			var designs = ['/assets/1ss.png','/assets/2ss.png','/assets/3ss.png','/assets/4ss.png','/assets/5ss.png','/assets/6ss.png','/assets/7ss.png','/assets/8ss.png','/assets/9ss.png','/assets/10ss.png',
@@ -135,6 +145,7 @@ p {
 			
 			var decalMaterial = new THREE.MeshPhongMaterial( { 
 				specular: 0x111111,
+                emissive: params.tattooC,
 				shininess: 0,
 				map: textureLoader.load( designs[addFile] ), 
 				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
@@ -164,7 +175,7 @@ p {
 			var tags = [];
 			var tagged = 0;
 			var tattoos = -1;
-			
+
 			function removeDecals() {
 
 				decals.forEach( function ( d ) {
@@ -212,12 +223,13 @@ function prevSkin(){
 	var materialB = new THREE.MeshPhongMaterial( {
 			map: textureLoader.load( designs[addFile] ),
 			shininess: 1,
+            emissive: params.tattooC,
 			transparent: true,
 		} );		
 	
 	cube.material = materialB ;
 	decalMaterial = new THREE.MeshPhongMaterial( { 
-	color: 0xffffff,
+    emissive: params.tattooC,
 	specular: 0x111111,
 	shininess: 1,
 	map: textureLoader.load( designs[addFile] ), 
@@ -228,7 +240,8 @@ function prevSkin(){
 	polygonOffsetFactor: -4, 
 	wireframe: false 
 });
-	
+//decalMaterial.color.set(params.tattooC);
+//decalMaterial.emissive = new THREE.Color(0x964B00);
 	}
 	function updateSkin(){
 	mesh.material = new THREE.MeshPhongMaterial( {
@@ -255,7 +268,7 @@ function removeTag() {
 				if(tagged == 1){
 					removeTag();
 				}				
-                                position.copy( intersection.point );
+                position.copy( intersection.point );
 				orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
 				prevSkin();				
@@ -263,7 +276,7 @@ function removeTag() {
 				var Scale = params.Scale;
 				size.set( Scale, Scale, Scale );							
 				var material = tagMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				//material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				nextSkin();
 				tags.push( m );
@@ -279,7 +292,7 @@ function removeTag() {
 				size.set( Scale, Scale, Scale );
 				
 				const material = decalMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				//material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				const m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				
 				m.renderOrder = decals.length; // give decals a fixed render order
@@ -293,6 +306,7 @@ function removeTag() {
 	var materialC = new THREE.MeshPhongMaterial( {
 						specular: 0x111111,
 						map: textureLoader.load( skins[0] ),
+                        color: 0xffaacc,
 						shininess: 1
 					} );
 	var	geometryB = new THREE.BoxGeometry(9.9, 10.5, 9.9);
@@ -301,11 +315,12 @@ function removeTag() {
 	cubeC.position.set(28,35,10);
 	//cubeC.scale.set( 0.8, 0.8, 0.8 );
 		scene.add( cubeC );
-		
+		var tc = params.tattooC;
 	var materialB = new THREE.MeshPhongMaterial( {
 		
 			map: textureLoader.load( designs[addFile] ),
 			shininess: 1,
+            color: tc,
 			transparent: true
 		} );
 	
@@ -439,7 +454,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				const Scale = params.Scale;
 				size.set( Scale, Scale, Scale );							
 				const material = decalMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				//material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				const m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				//nextSkin();
 				tags.push( m );
@@ -580,16 +595,32 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				line5 = new THREE.Line( geometry5, new THREE.LineBasicMaterial() );
 				scene.add( line5 );*/
 				newCube();
-				
-				var gui = new GUI();
 
-				//gui.add( params, 'minScale', 1, 30 );
-				gui.add( params, 'Scale', 1, 30 );
-				gui.add( params, 'Rotation', 0,360 );
-				gui.add( params, 'Clear' );
-				//gui.add( params, 'Choose', 1,6 );
-				gui.add( params, 'Clear_Last' );
-				gui.open();
+               /* var ColorObject = function() {
+   this.color = [ 0, 128, 255, 0.3 ]; // RGB with alpha
+    this.showAlert = function(){
+        alert("Color is "+this.color);
+    } 
+};*/
+
+
+
+
+//var colorObject = new ColorObject();
+var gui = new GUI();
+
+gui.addColor(params, 'tattooC')
+.name('Tattoo Color')
+  .onChange(function() {
+    decalMaterial.color.set(params.tattooC);
+    nextTattoo();
+    prevTattoo();
+  });
+gui.add( params, 'Scale', 1, 30 );
+gui.add( params, 'Rotation', 0,360 );
+gui.add( params, 'Clear_All' );
+gui.add( params, 'Clear_Last' );
+gui.open();
 
 				loadLeePerrySmith();
 
@@ -618,6 +649,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				controls.addEventListener( 'change', function () {
 
 					moved = true;
+                    checkIntersection();
 
 				} );
 
@@ -659,7 +691,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				requestAnimationFrame( animate );
 
 				renderer.render( scene, camera );
-				params.update();
+				//params.update();
 				//stats.update();
 
 			}
