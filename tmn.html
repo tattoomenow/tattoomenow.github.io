@@ -88,7 +88,9 @@ p {
 			var mesh, mesh2, cubeC, cube;
 			var raycaster;
 			var projector;
-			//var line;
+			var line;
+			var decalMaterial;
+			var tagMaterial;
 			var addFile = 9;
 			var skinType = 0;
 			var pn = -1;
@@ -130,33 +132,7 @@ p {
 			var skins = ['/models/gltf/LeePerrySmith/Map-COL5.jpg','/models/gltf/LeePerrySmith/Map-COL6.jpg', '/models/gltf/LeePerrySmith/Map-COL7.jpg', '/models/gltf/LeePerrySmith/Map-COL8.jpg'];
 	      scene = new THREE.Scene();
 			
-			var decalMaterial = new THREE.MeshPhongMaterial( { 
-				specular: 0x111111,
-				emissive: params.tattooC,
-				shininess: 0,
-				map: textureLoader.load( designs[addFile] ), 
-				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
-				normalScale: new THREE.Vector2( .15, .15 ),
-				transparent: true, 
-				depthTest: true, 
-				depthWrite: false, 
-				polygonOffset: true,
-				polygonOffsetFactor: -4, 
-				wireframe: false 
-			});
-	var tagMaterial = new THREE.MeshPhongMaterial( { 
-	color: 0xffffff,
-	specular: 0x111111,
-	emissive: params.tattooC,
-	shininess: 1,
-	map: textureLoader.load( '/assets/target2.png' ), 
-	transparent: true, 
-	depthTest: true, 
-	depthWrite: false, 
-	polygonOffset: true,
-	polygonOffsetFactor: -4, 
-	wireframe: false 
-});	
+				
 			
 			var decals = [];
 			var tags = [];
@@ -265,7 +241,7 @@ function removeTag() {
 				size.set( Scale, Scale, Scale );
 				
 				var material = decalMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				//material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				//nextSkin();
 				decals.push( m );
@@ -528,6 +504,33 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 
 				geometry = new THREE.BufferGeometry();
 				geometry.setFromPoints( [ new THREE.Vector3(), new THREE.Vector3() ] );
+				decalMaterial = new THREE.MeshPhongMaterial( { 
+				specular: 0x111111,
+				emissive: params.tattooC,
+				shininess: 0,
+				map: textureLoader.load( designs[addFile] ), 
+				normalMap: textureLoader.load( '/assets/wrinkle-normal.jpg' ),
+				normalScale: new THREE.Vector2( .15, .15 ),
+				transparent: true, 
+				depthTest: true, 
+				depthWrite: false, 
+				polygonOffset: true,
+				polygonOffsetFactor: -4, 
+				wireframe: false 
+			});
+	tagMaterial = new THREE.MeshPhongMaterial( { 
+	color: 0xffffff,
+	specular: 0x111111,
+	emissive: params.tattooC,
+	shininess: 1,
+	map: textureLoader.load( '/assets/target2.png' ), 
+	transparent: true, 
+	depthTest: true, 
+	depthWrite: false, 
+	polygonOffset: true,
+	polygonOffsetFactor: -4, 
+	wireframe: false 
+});
 
 				/*line = new THREE.Line( geometry, new THREE.LineBasicMaterial() );
 				scene.add( line );*/
