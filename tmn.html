@@ -89,7 +89,7 @@ p {
 			var raycaster;
 			var projector;
 			var line;
-			var addFile = 41;
+			var addFile = 9;
 			var skinType = 0;
 			var intersection = {
 				intersects: false,
@@ -111,9 +111,9 @@ p {
 			var params = {
 				Scale: 10,
 				Rotation: 0,
-				Clear: function () {removeDecals();},
-				Choose: 0,
-				ClearOne: function () {removeDecals2();}
+				Clear: function () {removeDecals();}
+				//Choose: 1,
+				//Clear_One: function () {removeDecals2();}
 			};
 			var designs = ['/assets/1ss.png','/assets/2ss.png','/assets/3ss.png','/assets/4ss.png','/assets/5ss.png','/assets/6ss.png','/assets/7ss.png','/assets/8ss.png','/assets/9ss.png','/assets/10ss.png',
 			'/assets/11ss.png','/assets/12ss.png','/assets/13ss.png','/assets/14ss.png','/assets/15ss.png','/assets/16ss.png','/assets/17ss.png','/assets/18ss.png','/assets/19ss.png','/assets/20ss.png',
@@ -136,24 +136,41 @@ p {
 				polygonOffsetFactor: -4, 
 				wireframe: false 
 			});
+	var tagMaterial = new THREE.MeshPhongMaterial( { 
+	color: 0xffffff,
+	specular: 0x111111,
+	shininess: 1,
+	map: textureLoader.load( '/assets/target2.png' ), 
+	transparent: true, 
+	depthTest: true, 
+	depthWrite: false, 
+	polygonOffset: true,
+	polygonOffsetFactor: -4, 
+	wireframe: false 
+});	
 			
 			var decals = [];
+			var tags = [];
+			var tagged = 0;
+			var tattoos = -1;
 			
 			function removeDecals() {
 
 				decals.forEach( function ( d ) {
 
 					scene.remove( d );
-
 				} );
-
+				tattoos = 0;
+				tagged = 0;
 				decals = [];
 
 			}
 			function removeDecals2() {
-				var number = params.Choose;
-					scene.remove( decals[number] );		
+				var number = params.Choose - 1;
+					scene.remove( decals[number] );	
+					tattoos = tattoos - 1;	
 			}
+			
 			
 	function nextTattoo(){
 	addFile = addFile + 1;
@@ -208,16 +225,40 @@ function prevSkin(){
 						shininess: 1
 					} );
 	}
+function removeTag() {
+		tags.forEach( function ( d ) {
+			scene.remove( d );
+			} );
+		tagged = 0;
+		tags = [];
+			}
 			function tag() {
+				if(tagged == 1){
+					removeTag();
+				}				
                                 position.copy( intersection.point );
+								orientation.copy( mouseHelper.rotation );
+				orientation.z = params.Rotation/180*Math.PI;
+				prevSkin();				
+				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
+				var Scale = params.Scale;
+				size.set( Scale, Scale, Scale );							
+				var material = tagMaterial.clone();
+				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				nextSkin();
-				prevSkin();
-				
+				tags.push( m );
+				scene.add( m );
+				tagged = 1;
 			}
 				function shoot() {
-					prevSkin();
-				orientation.copy( mouseHelper.rotation );
-				orientation.z = params.Rotation/180*Math.PI;
+					if(tagged == 0){
+						print("please tag first" );
+					}
+					if(tagged == 1){
+					removeTag();
+					prevSkin();			
+					orientation.z = params.Rotation/180*Math.PI;	
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
 				var Scale = params.Scale;
 				size.set( Scale, Scale, Scale );
@@ -228,6 +269,8 @@ function prevSkin(){
 				nextSkin();
 				decals.push( m );
 				scene.add( m );
+				tattoos = tattoos + 1;
+					}
 			}
 			function newCube(){
 		if(1==1){ //set second value to 0 for testing 1 to go
@@ -414,7 +457,6 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 		<img src="assets/next2.png" width="48" height="48" onclick="prevTattoo()"></img><br><br>
 		<img src="assets/nexts.png"  width="48" height="48" onclick="nextSkin()" ></img><br><br>
 		<img src="assets/next2s.png"  width="48" height="48" onclick="prevSkin()"></img><br><br>
-	        <img src="assets/target.png"  width="48" height="48" onclick="tag()"></img><br><br>
 		<img src="assets/tattoo.png"  width="48" height="48" onclick="shoot()"></img><br><br>
   </form>
 
@@ -482,8 +524,8 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				gui.add( params, 'Scale', 1, 30 );
 				gui.add( params, 'Rotation', 0,360 );
 				gui.add( params, 'Clear' );
-				gui.add( params, 'Choose', 0, 200 );
-				gui.add( params, 'ClearOne' );
+				//gui.add( params, 'Choose', 1,6 );
+				//gui.add( params, 'Clear_One' );
 				gui.open();
 
 				loadLeePerrySmith();
@@ -502,7 +544,7 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 				window.addEventListener('touchend', function () {//theuns
 
 					checkIntersection();
-					//if ( ! moved && intersection.intersects ) shoot();
+					if ( ! moved && intersection.intersects ) tag();
 
 				} );//theuns
 				window.addEventListener( 'resize', onWindowResize, false );
