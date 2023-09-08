@@ -248,10 +248,10 @@ function removeTag() {
 				var Scale = params.Scale;
 				size.set( Scale, Scale, Scale );							
 				var material = decalMaterial.clone();
-				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
+				//material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
 				//nextSkin();
-				decals.push( m );
+				tags.push( m );
 				scene.add( m );
                                 
 				tagged = 1;
@@ -419,14 +419,14 @@ var intersects = raycaster.intersectObjects( [ mesh ] );
 						position.copy( intersection.point );
 						orientation.copy( mouseHelper.rotation );
 				orientation.z = params.Rotation/180*Math.PI;
-				//prevSkin();				
+				prevSkin();				
 				if(position.z < 0){orientation.z = params.Rotation/180*Math.PI + Math.PI;}
 				var Scale = params.Scale;
 				size.set( Scale, Scale, Scale );							
 				var material = decalMaterial.clone();
 				material.color.setHex(0x000000);//( Math.random() * 0xffffff );
 				var m = new THREE.Mesh( new DecalGeometry( mesh, position, orientation, size ), material );
-				//nextSkin();
+				nextSkin();
 				tags.push( m );
 				scene.add( m );
 
